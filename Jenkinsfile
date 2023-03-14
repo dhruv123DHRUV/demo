@@ -40,7 +40,7 @@ pipeline {
                     sh 'mvn clean package'
                     def version = (readFile('pom.xml') =~ '<version>(.+)</version>')[0][2]
                     env.IMAGE_NAME = "$version-$BUILD_NUMBER"
-                    sh "docker build -t learnwithparth/spring-boot:${IMAGE_NAME} ."
+                    sh "docker build -t dhruv123dhruv/spring-boot:${IMAGE_NAME} ."
                         
                     }
             }
@@ -69,7 +69,7 @@ pipeline {
                 script{echo 'deploying the application'
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                     sh "echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin"
-                    sh "docker push learnwithparth/spring-boot:${IMAGE_NAME}"
+                    sh "docker push dhruv123dhruv/spring-boot:${IMAGE_NAME}"
                 }}
                 
              }
@@ -85,7 +85,7 @@ pipeline {
                         sh 'git branch'
                         sh 'git config --list'
 
-                        sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/learnwithparth/springboot-jenkins.git"
+                        sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/dhruv123dhruv/springboot-jenkins.git"
                         sh 'git add .'
                         sh 'git commit -m "version change"'
                         sh 'git push origin HEAD:jenkins-jobs'
